@@ -35,3 +35,19 @@ To achieve flawless internal communication and prevent infinite handshake loadin
 * Windows 11 NDIS6 Virtual Driver Troubleshooting
 * Linux Terminal Static Network Configuration (`ifconfig`)
 * Secure Sandbox Isolation and Lab Construction
+
+## 🔍 Phase 1: Network Reconnaissance & Vulnerability Assessment
+Conducted an aggressive service-version discovery scan using Nmap against target asset `192.168.56.102` to map the network surface perimeter.
+
+### 📋 Critical Vulnerability Assessment Metrics:
+* **Total Discovered Open Ports:** 23/24 Ports Active
+* **High-Risk Exposed Vectors:** 
+  * `Port 21 (FTP)` running `vsftpd 2.3.4` (Known Backdoor Signature)
+  * `Port 23 (Telnet)` unencrypted remote console exposure
+  * `Ports 512-514 (R-Services)` unauthenticated shell execution risks
+  * `Port 80 / 8180 (HTTP)` legacy Apache application footprints
+
+### 🖥️ Production Nmap Scan Query:
+```bash
+nmap -sV -T4 192.168.56.102
+```
