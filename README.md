@@ -47,6 +47,27 @@ Conducted an aggressive service-version discovery scan using Nmap against target
   * `Ports 512-514 (R-Services)` unauthenticated shell execution risks
   * `Port 80 / 8180 (HTTP)` legacy Apache application footprints
 
+## 💥 Phase 2: Exploit Verification & Post-Exploitation Auditing
+Leveraged the Metasploit Framework to automate exploit verification against the exposed `vsftpd 2.3.4` service on Port 21 to evaluate false-positive indices.
+
+### 📋 Execution Metrics & Findings:
+* **Exploit Module:** `exploit/unix/ftp/vsftpd_234_backdoor`
+* **Payload Tunnel:** Meterpreter Reverse TCP Session Active
+* **Access Level Achieved:** Absolute Administrative Dominance (`uid=0 / root`)
+
+### 🔑 Cryptographic Credential Extraction
+Successfully exfiltrated the master system account credential structure directly out of the secure `/etc/shadow` database layer, identifying a legacy MD5 hashing algorithm (`$1$`) in production:
+```text
+root:$1$/avpfBJ1$x0z8w5UF9Iv./DR9E9Lid.:14747:0:99999:7:::
+```
+
+### 🦹‍♂️ Post-Exploit Lateral Movement Auditing
+Demonstrated how a compromised asset is converted into an internal sniffing post by deploying native network sniffers (`tcpdump`) to capture raw interface packet telemetry data:
+```text
+11:36:15.536526 IP 192.168.56.102.39801 > 192.168.56.101.4444: P 691703195:691703419(224)
+```
+
+
 ### 🖥️ Production Nmap Scan Query:
 ```bash
 nmap -sV -T4 192.168.56.102
