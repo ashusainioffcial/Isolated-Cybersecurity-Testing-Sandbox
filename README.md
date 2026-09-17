@@ -67,6 +67,24 @@ Demonstrated how a compromised asset is converted into an internal sniffing post
 11:36:15.536526 IP 192.168.56.102.39801 > 192.168.56.101.4444: P 691703195:691703419(224)
 ```
 
+## 🔓 Phase 3: Offline Credential Auditing & Cryptanalysis (John the Ripper)
+Demonstrated an offline dictionary attack matrix against the exfiltrated operating system security credentials database to evaluate corporate password complexity indices.
+
+### 📋 Technical Execution Workflow:
+1. **Wordlist Decompression:** Extracted the standard enterprise-grade dictionary directory `rockyou.txt` out of the native compressed system archive repository using Unix extraction streams:
+   ```bash
+   sudo gunzip /usr/share/wordlists/rockyou.txt.gz
+   ```
+2. **Algorithmic Fingerprinting:** Leveraged the cryptanalysis engine `John the Ripper` to parse the targets. The engine successfully identified the signature `$1$` prefix as a legacy FreeBSD-MD5 cryptographic structure (`md5crypt`).
+3. **Dictionary Matrix Injection:** Executed the brute-force processing payload using parallel computing execution blocks:
+   ```bash
+   john --wordlist=/usr/share/wordlists/rockyou.txt ~/Desktop/hash_linux.txt
+   ```
+
+### 🎯 Key Auditing Results:
+* **System Cracking Index:** Rapid identification of multiple high-risk system account match parameters within the first 17% of the total wordlist iteration block.
+* **Security Vector Risk:** The audit confirmed highly critical password vulnerabilities across administrative (`root`) and operational (`msfadmin`) layers, demonstrating the severe threat of lateral migration vulnerabilities via unpatched legacy protocols (such as open SSH Port 22 or Telnet Port 23 frameworks).
+
 
 ### 🖥️ Production Nmap Scan Query:
 ```bash
