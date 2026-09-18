@@ -130,6 +130,30 @@ Identified and neutralized a high-risk legacy backdoor signature embedded within
 * Deployed automated validation checking using raw protocol stream probes (`netcat`), confirming full environment stabilization.
 * **Current Operational Threat Index:** Zero. Network sweeps successfully return an absolute **`Connection refused`** status block at the boundary line.
 
+## 👥 Phase 6: Local Identity Access Auditing & PAM Compliance Hardening
+Executed local operating system hardening policies to align the target asset with corporate security frameworks (e.g., PCI-DSS / ISO 27001) by enforcing strict credential governance.
+
+### ⏳ 1. Global Password Aging Governance
+Audited account expiration records using system query utilities (`chage -l`), identifying critical vulnerabilities where core profiles were set to never expire. Remediated the global baseline framework inside `/etc/login.defs` and forced runtime account compliance:
+```text
+PASS_MAX_DAYS   90      # Enforced mandatory 90-day expiration cycle
+PASS_MIN_DAYS   7       # Prevented rapid-fire credential cycling
+```
+* **Active Execution:** Applied account policy constraints directly to operational nodes via terminal execution:
+  ```bash
+  sudo chage -M 90 -W 7 msfadmin
+  ```
+
+### 🔐 2. Cryptographic Complexity Enforcement (PAM Injection)
+Intercepted the Pluggable Authentication Module (**PAM**) layer inside `/etc/pam.d/common-password` to establish structural limits preventing brute-force dictionary attacks. Appended structural length boundaries to the active authentication directive:
+```text
+password   requisite   pam_unix.so nullok obscure md5 minlen=12
+```
+
+### 🎯 Verification & Defense Validation Indices:
+* **Constraint Compliance Test:** Simulated a non-compliant user attempting a short password change modification index (`abcd`). 
+* **Current Operational State:** The PAM architecture successfully intercepted the raw string input, threw a hard termination fault reading **`you must choose a longer password`**, and permanently blocked the weak credential transaction.
+
 
 ### 🖥️ Production Nmap Scan Query:
 ```bash
