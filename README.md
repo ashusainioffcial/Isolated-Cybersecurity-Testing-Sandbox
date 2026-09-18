@@ -108,6 +108,28 @@ sudo iptables -A INPUT -p tcp --dport 21 -j DROP
 * **Perimeter Audit (Nmap):** Automated network verification sweeps confirmed that high-risk backdoor vectors targeting Port 6200 successfully shifted to a **`filtered/closed`** security state.
 * **Authentication Interception:** Live manual connection checks from the analyst node verified that unauthorized access pathways are completely neutralized, returning explicit **`Connection refused`** blocks at the kernel layer.
 
+## 🔒 Phase 5: Unauthenticated Backdoor Remediation (Port 1524 - ingreslock)
+Identified and neutralized a high-risk legacy backdoor signature embedded within the core network configuration parameters during a comprehensive architecture audit.
+
+### 📋 Vulnerability Profiling:
+* **Vector Discovered:** `ingreslock` service running on Port 1524.
+* **Exploit Vector Mechanics:** A hardcoded shell wrapper mapping incoming connections straight to an interactive root command prompt:
+  ```text
+  ingreslock stream tcp nowait root /bin/bash bash -i
+  ```
+* **Threat Profile:** Critical severity. Complete authentication bypass leading to immediate, unauthenticated system dominance (`uid=0 / root`).
+
+### 🛠️ Remediation Engineering:
+1. **Volatile Process Eviction:** Evicted the master internet daemon service structures out of live memory slots to drop stale execution paths:
+   ```bash
+   sudo killall -9 inetd
+   ```
+2. **Configuration File Hardening:** Commented out the structural entry line inside the system configuration map (`/etc/inetd.conf`) to permanently decouple the bash binary script from network listening sockets.
+
+### 🎯 Security Validation Metrics:
+* Deployed automated validation checking using raw protocol stream probes (`netcat`), confirming full environment stabilization.
+* **Current Operational Threat Index:** Zero. Network sweeps successfully return an absolute **`Connection refused`** status block at the boundary line.
+
 
 ### 🖥️ Production Nmap Scan Query:
 ```bash
