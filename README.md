@@ -85,6 +85,29 @@ Demonstrated an offline dictionary attack matrix against the exfiltrated operati
 * **System Cracking Index:** Rapid identification of multiple high-risk system account match parameters within the first 17% of the total wordlist iteration block.
 * **Security Vector Risk:** The audit confirmed highly critical password vulnerabilities across administrative (`root`) and operational (`msfadmin`) layers, demonstrating the severe threat of lateral migration vulnerabilities via unpatched legacy protocols (such as open SSH Port 22 or Telnet Port 23 frameworks).
 
+## 🛡️ Phase 4: Perimeter Hardening & Defensive Engineering (Defense-in-Depth)
+Implemented a dual-layered security remediation framework comprising a kernel-level network firewall matrix and standalone application-layer parameter hardening to completely eliminate unauthorized access vectors.
+
+### 🧱 1. Network-Layer Hardening (iptables Firewall)
+Deployed targeted Netfilter kernel rules to drop backdoor injection attempts on Port 6200 and restrict administrative FTP entry strictly to the authorized analyst workstation subnet, dropping all other rogue traffic matching the signature perimeter:
+```bash
+sudo iptables -A INPUT -p tcp --dport 6200 -j DROP
+sudo iptables -A INPUT -p tcp -s 192.168.56.101 --dport 21 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 21 -j DROP
+```
+
+### 📄 2. Application-Layer Remediation & Forensic Analysis
+1. **Daemon Architecture Triage:** Conducted an inspection of the master daemon configuration network map (`/etc/inetd.conf`), confirming the primary application loop was operating in an un-wrapped standalone service engine structure rather than a managed sub-daemon mode.
+2. **Configuration Hardening:** Flushed volatile runtime memory caches using `killall` processing blocks and patched the master configuration parameters (`/etc/vsftpd.conf`) to enforce explicit standalone listener execution and permanently drop unauthenticated profiling:
+   ```text
+   listen=YES
+   anonymous_enable=NO
+   ```
+
+### 🎯 Verification & Defense Validation Indices:
+* **Perimeter Audit (Nmap):** Automated network verification sweeps confirmed that high-risk backdoor vectors targeting Port 6200 successfully shifted to a **`filtered/closed`** security state.
+* **Authentication Interception:** Live manual connection checks from the analyst node verified that unauthorized access pathways are completely neutralized, returning explicit **`Connection refused`** blocks at the kernel layer.
+
 
 ### 🖥️ Production Nmap Scan Query:
 ```bash
