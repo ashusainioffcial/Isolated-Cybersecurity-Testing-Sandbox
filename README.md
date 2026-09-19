@@ -166,6 +166,36 @@ Engineered an automated shell scripting framework to handle routine security sna
 * **State Snapshot Test:** Re-injected active perimeters and successfully executed the automated tarball generation matrix.
 * **Forensic Archive Readout:** Extracted the `.tar.gz` package payload structures, confirming that the configuration rules are preserved and ready for rapid restoration down to the byte layer.
 
+## 🌐 Phase 8: Web Application Tier Auditing & UNION-Based SQL Injection (SQLi)
+Conducted raw string vulnerability assessments against application-layer endpoints to evaluate input sanitization defects and structural logic bypasses.
+
+### 📋 Exploit Verification Metrics:
+* **Target Interface:** Damn Vulnerable Web Application (DVWA) - SQL Injection Module
+* **Environment Constraints:** Local Sandbox Host-Only Network Subnet (`192.168.56.102`)
+* **Vulnerability Class:** Unsanitized Input Field leading to Arbitrary Database Query Execution (OWASP Top 10)
+
+### 🥷 1. Logical Logic Bypass (Tautology Attack)
+Injected a boolean absolute truth string payload to force the backend database engine interpreter to bypass user validation and extract full account directories:
+```text
+1' OR '1'='1
+```
+* **Result:** Successfully exfiltrated full backend user profiles including First Names and Surnames for the entire system registry database index.
+
+### 🔑 2. Advanced Data Exfiltration (UNION Selection)
+Leveraged structural operators (`UNION SELECT`) alongside line-termination parameters (`#`) to hijack the execution stream, bridging backend column mappings directly to the internal security schema tables:
+```text
+1' UNION SELECT user, password FROM users#
+```
+* **Exfiltrated Passwords Database Artifacts (MD5 Hashes):**
+  * `admin`  :: `5f4dcc3b5aa765d61d8327deb882cf99`
+  * `gordonb`:: `e99a18c428cb38d5f260853678922e03`
+  * `1337`   :: `8d3533d75ae2c3966d7e0d4fcc69216b`
+  * `pablo`  :: `0d107d09f5bbe40cade3de5c71e9e9b7`
+  * `smithy` :: `5f4dcc3b5aa765d61d8327deb882cf99`
+
+### 🎯 Forensic Analysis & Security Impact:
+The cryptanalysis audit identified cross-account credential reuse patterns, specifically confirming that the `admin` and `smithy` user accounts share identical raw hash footprints. This validates a catastrophic threat surface where an attacker can achieve lateral movement across roles using single compromise factors.
+
 
 ### 🖥️ Production Nmap Scan Query:
 ```bash
