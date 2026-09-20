@@ -239,3 +239,28 @@ Deployed automated web application auditing engines to conduct rapid, line-by-li
 2. **Cross-Site Tracking Exposure (XST via HTTP TRACE):** Confirmed the active status of the dangerous `HTTP TRACE` connection method, allowing for potential session cookie exfiltration.
 3. **Directory Traversal Risks (Directory Indexing):** Discovered open directory listings on `/icons/` and `/doc/`, allowing unauthenticated browser navigation through internal server file systems.
 4. **Compliance Deficiencies (Missing Security Headers):** Flagged a complete absence of mandatory defense headers including `Content-Security-Policy` (CSP), `X-Content-Type-Options`, and `Strict-Transport-Security` (HSTS).
+
+## 🧱 Phase 11: Web Infrastructure Hardening & Information Leak Remediation
+Remediated structural data exposure flaws flagged during automated vulnerability scans by enforcing global directory layout controls within the Apache web server engine.
+
+### 📋 Technical Finding (Nikto Telemetry):
+* **Vulnerability Class:** Unrestricted Directory Indexing / Information Leak (OWASP Top 10)
+* **Risk Profile:** Unauthorized directory tree traversal allowing unauthenticated enumeration of internal system paths, configuration templates, and internal files.
+
+### 🛠️ Remediation Engineering:
+1. **Global Override Integration:** Patched the master site configuration rules and injected strict folder access control blocks directly into the core layout maps (`/etc/apache2/httpd.conf`):
+   ```text
+   <Directory /var/www>
+       Options -Indexes +FollowSymLinks
+       AllowOverride None
+   </Directory>
+   ```
+2. **Control Context:** The `-Indexes` parameter explicitly strips out the directory listing runtime permissions, preventing the server from generating folder indexes if a standard index file is absent.
+3. **Daemon State Refresh:** Flushed the volatile runtime memory cache via direct script execution signals to commit the security directives to disk:
+   ```bash
+   sudo /etc/init.d/apache2 restart
+   ```
+
+### 🎯 Verification & Defense Validation Indices:
+* **Targeted Directory Probe:** Conducted verification queries using automated protocol tools (`curl`) targeting the vulnerable `/doc/` root endpoint paths [kali_dl_36gb].
+* **Current Operational State:** Confirmed complete threat neutralization. The root path remains accessible (`200 OK`), while the loose subfolder paths are securely blocked, returning an absolute **`HTTP/1.1 403 Forbidden`** protection status code.
