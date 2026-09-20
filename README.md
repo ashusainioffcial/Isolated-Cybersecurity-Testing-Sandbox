@@ -279,3 +279,28 @@ Designed signature-matching rule sets to ingest incoming packet payloads at the 
 alert tcp 192.168.56.101 any -> 192.168.56.102 80 (msg:"IDS-ALERT: Automated Nikto Scanner Scan Detected"; content:"Nikto"; nocase; sid:1000001; rev:1;)
 ```
 * **Security Control Context:** Setting the `content` metric to look for `"Nikto"` forces the engine to parse the HTTP stream layer and flag scanner signatures instantly, ensuring real-time visibility before threat packets reach local file systems.
+
+## 🌐 Phase 13: Enterprise Core Networking & Stateless Access Control Firewalls (Cisco IOS)
+Backfilled foundational core networking architecture gaps by engineering a multi-subnet simulated corporate network topology with automated addressing and perimeter security filtering policies using the Cisco IOS command line interface.
+
+### 📋 Enterprise Topology Blueprints:
+* **Subnet A (Operations Subnet):** `192.168.1.0/24` using Cisco 2960 Switch switching architectures.
+* **Subnet B (Core Server Subnet):** `10.0.0.0/24` hosting centralized application assets.
+* **Core Gateway Routing:** Cisco 4331 Enterprise Router binding interfaces `Gig0/0/0` (`192.168.1.1`) and `Gig0/0/1` (`10.0.0.1`).
+
+### 🛠️ 1. Dynamic Automation Infrastructure (DHCP & DNS Core)
+* **Automated Address Provisioning:** Authored Cisco IOS address distribution scopes (`ip dhcp pool`) to dynamically rent network identities (`192.168.1.2`, `10.0.0.2`) to untrusted client nodes, automating corporate network setup vectors.
+* **Application Services Delivery:** Configured a static Corporate Server (`10.0.0.50`) running custom HTTP index servers alongside a localized Domain Name System (DNS) phonebook pointer record mapping `cyberlab.local` directly to the host layout.
+
+### 🧱 2. Layer-3 Boundary Isolation (Standard ACL Firewall)
+Designed and deployed a stateless router security matrix to prevent unauthorized lateral subnet migration, completely dropping high-risk static endpoints while preserving business traffic availability:
+```text
+access-list 10 deny host 192.168.1.10
+access-list 10 permit any
+interface GigabitEthernet0/0/1
+ ip access-group 10 out
+```
+
+### 🎯 Verification & Network Triage Indices:
+* **Stateless Drop Validation:** Manual ICMP sweeps from the restricted host (`PC-01`) returned an explicit **`Destination host unreachable`** alert originating directly from the gateway kernel (`192.168.1.1`), verifying a hard firewall block.
+* **Operational Flow Audit:** Parallel sweeps from the dynamic node (`Laptop-01`) successfully loaded web requests with a perfect **`0% packet loss` index**, validating access control integrity.
