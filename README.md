@@ -47,6 +47,10 @@ Conducted an aggressive service-version discovery scan using Nmap against target
   * `Ports 512-514 (R-Services)` unauthenticated shell execution risks
   * `Port 80 / 8180 (HTTP)` legacy Apache application footprints
 
+### 🖥️ Production Nmap Scan Query:
+```bash
+nmap -sV -T4 192.168.56.102
+```
 ## 💥 Phase 2: Exploit Verification & Post-Exploitation Auditing
 Leveraged the Metasploit Framework to automate exploit verification against the exposed `vsftpd 2.3.4` service on Port 21 to evaluate false-positive indices.
 
@@ -196,8 +200,28 @@ Leveraged structural operators (`UNION SELECT`) alongside line-termination param
 ### 🎯 Forensic Analysis & Security Impact:
 The cryptanalysis audit identified cross-account credential reuse patterns, specifically confirming that the `admin` and `smithy` user accounts share identical raw hash footprints. This validates a catastrophic threat surface where an attacker can achieve lateral movement across roles using single compromise factors.
 
+## 🔓 Phase 9: Cryptanalysis Crack Matrix & Secure Source-Code Remediation
+Executed a complete full-circle remediation pipeline comprising offline cryptographic database cracking and web-tier software engineering source-code patching (OWASP Top 10 mitigation).
 
-### 🖥️ Production Nmap Scan Query:
+### ⚡ 1. Cryptanalysis Cracking Operations (John the Ripper)
+Compiled the exfiltrated 32-character hexadecimal database hashes into a target matrix file and deployed parallel wordlist dictionary attacks. Explicitly targeted the raw database structures using the `raw-md5` format flag:
 ```bash
-nmap -sV -T4 192.168.56.102
+john --format=raw-md5 --wordlist=/usr/share/wordlists/rockyou.txt ~/Desktop/web_hashes.txt
 ```
+* **Decrypted Plaintext Credentials Unmasked:**
+  * `admin`   :: `password`
+  * `gordonb` :: `abc123`
+  * `1337`    :: `charley`
+  * `pablo`   :: `letmein`
+  * `smithy`  :: `password`
+* **Forensic Finding:** Confirmed high-severity cross-role password reuse vulnerability between `admin` and `smithy` identities.
+
+### 🛡️ 2. Secure Code Engineering (SQLi Mitigation Patch)
+Analyzed the vulnerable backend PHP application layer, identifying dynamic input concatenation as the root structural flaw causing database logic bypass. Engineered the production-grade mitigation patch using **Parameterized Prepared Statements** to safely isolate executable command logic from literal text inputs:
+```php
+// Safe Parameterized Execution Blueprint
+stmt = conn->prepare("SELECT first_name, last_name FROM users WHERE user_id = ?");
+\$stmt->bind_param("s", \(id);\)stmt->execute();
+result = stmt->get_result();
+```
+* **Security Control Context:** Binding the variable strictly as an isolated parameter value forces the SQL interpreter to process input strings literally, permanently neutralizing SQL Injection threats regardless of input characters.
