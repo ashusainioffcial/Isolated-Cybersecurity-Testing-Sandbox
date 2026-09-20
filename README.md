@@ -264,3 +264,18 @@ Remediated structural data exposure flaws flagged during automated vulnerability
 ### 🎯 Verification & Defense Validation Indices:
 * **Targeted Directory Probe:** Conducted verification queries using automated protocol tools (`curl`) targeting the vulnerable `/doc/` root endpoint paths [kali_dl_36gb].
 * **Current Operational State:** Confirmed complete threat neutralization. The root path remains accessible (`200 OK`), while the loose subfolder paths are securely blocked, returning an absolute **`HTTP/1.1 403 Forbidden`** protection status code.
+
+## 🕵️‍♂️ Phase 12: Incident Response Log Auditing & Network Security Monitoring (IDS)
+Analyzed raw web application service telemetry layers to footprint automated scanner behavior and mapped out network-layer Intrusion Detection System (IDS) alerts.
+
+### 📋 Web Log Analysis Analytics (`/var/log/apache2/access.log`):
+* Deployed string isolation filters (`grep`) to parse incoming traffic arrays originating from the analyst workstation node (`192.168.56.101`) [kali_dl_36gb].
+* **Volumetric Scan Index:** The auditing query confirmed an aggressive volumetric footprint totaling **11,604 unique HTTP requests** executed within a minimal timeframe.
+* **Attack Signatures Unmasked:** Exposed explicit local file inclusion (LFI) fuzzed requests targeting internal configuration files (`/etc/hosts`) and cross-site tracking probes.
+
+### 🚨 Intrusion Detection System (Snort NIDS) Alert Engineering:
+Designed signature-matching rule sets to ingest incoming packet payloads at the wire layer and flag malicious activity automatically:
+```text
+alert tcp 192.168.56.101 any -> 192.168.56.102 80 (msg:"IDS-ALERT: Automated Nikto Scanner Scan Detected"; content:"Nikto"; nocase; sid:1000001; rev:1;)
+```
+* **Security Control Context:** Setting the `content` metric to look for `"Nikto"` forces the engine to parse the HTTP stream layer and flag scanner signatures instantly, ensuring real-time visibility before threat packets reach local file systems.
