@@ -225,3 +225,17 @@ stmt = conn->prepare("SELECT first_name, last_name FROM users WHERE user_id = ?"
 result = stmt->get_result();
 ```
 * **Security Control Context:** Binding the variable strictly as an isolated parameter value forces the SQL interpreter to process input strings literally, permanently neutralizing SQL Injection threats regardless of input characters.
+
+## 🤖 Phase 10: Automated Web Server Vulnerability Assessments (Nikto Analytics)
+Deployed automated web application auditing engines to conduct rapid, line-by-line configuration assessments and footprinting against the target web infrastructure layer.
+
+### 📋 Scanning Metrology:
+* **Tool Framework:** Nikto Web Server Scanner
+* **Execution Payload:** `nikto -h http://192.168.56`
+* **Target Environment:** Apache/2.2.8 (Ubuntu) DAV/2 Engine Subnet
+
+### 🚨 Critical Vulnerability Identifiers Discovered:
+1. **Critical Information Disclosure (`/phpinfo.php`):** Identified an exposed configuration script exposing internal environment variables, kernel paths, and raw system environment parameters.
+2. **Cross-Site Tracking Exposure (XST via HTTP TRACE):** Confirmed the active status of the dangerous `HTTP TRACE` connection method, allowing for potential session cookie exfiltration.
+3. **Directory Traversal Risks (Directory Indexing):** Discovered open directory listings on `/icons/` and `/doc/`, allowing unauthenticated browser navigation through internal server file systems.
+4. **Compliance Deficiencies (Missing Security Headers):** Flagged a complete absence of mandatory defense headers including `Content-Security-Policy` (CSP), `X-Content-Type-Options`, and `Strict-Transport-Security` (HSTS).
