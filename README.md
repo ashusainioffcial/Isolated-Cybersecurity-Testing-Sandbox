@@ -304,3 +304,44 @@ interface GigabitEthernet0/0/1
 ### 🎯 Verification & Network Triage Indices:
 * **Stateless Drop Validation:** Manual ICMP sweeps from the restricted host (`PC-01`) returned an explicit **`Destination host unreachable`** alert originating directly from the gateway kernel (`192.168.1.1`), verifying a hard firewall block.
 * **Operational Flow Audit:** Parallel sweeps from the dynamic node (`Laptop-01`) successfully loaded web requests with a perfect **`0% packet loss` index**, validating access control integrity.
+
+
+---
+
+## ☁️ Phase 14: Enterprise Cloud Infrastructure Basics & Asymmetric Access Controls (AWS EC2)
+Expanded defensive boundaries from local paravirtualized environments into public enterprise cloud architectures by deploying and micro-segmenting virtual computing assets within Amazon Web Services (AWS).
+
+### 🛠️ 1. Asymmetric Cryptographic Access Architecture
+* **Compute Provisioning:** Deployed an isolated, free-tier eligible **Ubuntu 24.04 LTS Linux EC2 compute node** (`Cloud-Target-Ubuntu`) hosted on Amazon's global data center processor infrastructure.
+* **Identity Protection:** Enforced zero-password administrative access policies by binding a public RSA cryptographic token to the cloud operating system, generating an asymmetric private key file (`cyberlab_cloud_key.pem`).
+* **Cross-Platform NTFS Triage:** Diagnosed an environmental vulnerability where the local Windows host file system (NTFS) ignored standard Linux permission masks (`chmod 400`), leaving the private key globally exposed (`-r--r--r--`) and crashing OpenSSH tunnel handshakes. Resolved the cross-platform conflict by executing explicit Access Control List (ACL) resets via Administrator PowerShell to strip away inherited user groups:
+  ```powershell
+  icacls.exe .\cyberlab_cloud_key.pem /inheritance:r
+  icacls.exe .\cyberlab_cloud_key.pem /grant:r "${env:USERNAME}:(F)"
+  icacls.exe .\cyberlab_cloud_key.pem /remove "NT AUTHORITY\Authenticated Users"
+  icacls.exe .\cyberlab_cloud_key.pem /remove "BUILTIN\Users"
+  ```
+* **Handshake Verification:** Successfully established a secure, remote OpenSSH gateway tunnel over the public internet, verifying active terminal shell interactive capabilities on internal private subnet node `ubuntu@ip-172-31-9-2`.
+
+---
+
+## 🤖 Phase 15: Cloud Web Service Deployments & FinOps Governance (Apache / CloudWatch)
+Provisioned global application layers on the cloud instance, hardened public perimeter firewalls against automated botnets, and executed formal asset decommissioning protocols.
+
+### 🛠️ 1. Cloud Web Daemon Provisioning & Shell Triage
+* **Service Deployment:** Connected via remote SSH and utilized advanced package utilities (`apt`) to ingest and initialize an open-source **Apache2 web daemon engine**, verifying background runtime execution states via `systemctl`.
+* **Bash Interpretation Override:** Bypassed a notorious Linux Bash string parsing error (`-bash: !: event not found`) by encapsulating injection tokens within literal single quotes (`'...'`), successfully overwriting the root directory indexes:
+  ```bash
+  echo '<h1>[✓] Live Cloud-Native Web Node Provisioned on AWS!</h1>' | sudo tee /var/www/html/index.html
+  ```
+* **Global Access Verification:** Confirmed public web accessibility by loading the custom portfolio dashboard page across external global networks (`http://65.2.80.100`).
+
+### 🧱 2. Perimeter Micro-Segmentation & Asymmetric NAT Triage
+* **Least-Privilege Firewalls:** Built a dual-tier edge perimeter strategy inside AWS Security Groups. Configured public HTTP Port 80 availability globally (`0.0.0.0/0`) while completely isolating administrative SSH Port 22.
+* **Asymmetric CGNAT Audit:** Diagnosed a persistent `Connection timed out` block triggered by ISP Carrier-Grade NAT (CGNAT) load balancers routing browser traffic and raw terminal queries over mismatched outbound proxy vectors. Extracted the terminal's true public IP pathway via internal kernel streams (`echo $SSH_CONNECTION`) and locked the entry gate down to a strict `/32` CIDR host mask to deny automated botnet fuzzer attacks.
+
+### 📊 3. Telemetry Auditing & Cloud FinOps Decommissioning
+* **Telemetry Monitoring:** Ingested real-time performance infrastructure data via **Amazon CloudWatch**, establishing charts for the `CPUUtilization` metric namespace to analyze baseline operations and map signature alerts for anomalous processing activity.
+* **FinOps Governance Lifecycle:** To maintain strict asset governance compliance and prevent financial resource budget leakage, a formal decommissioning protocol was executed at the conclusion of the laboratory testing cycle:
+  1. Forcefully terminated the active EC2 compute resource framework to release cloud allocations.
+  2. Permanently deleted the RSA key-pair metadata records from the centralized AWS identity console vault.
